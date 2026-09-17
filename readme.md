@@ -9,6 +9,7 @@ A curated collection of custom skills, slash commands, and workflows for **Antig
 | Command / Skill | Path | Description |
 | :--- | :--- | :--- |
 | `/export` | [~/skills/export/SKILL.md](skills/export) | Export full conversation history to file or clipboard with high fidelity. |
+| `/init` | [~/skills/init/SKILL.md](skills/init) | Analyze repository and generate/update project context (`GEMINI.md`). |
 
 ---
 
@@ -94,19 +95,57 @@ The exported output follows a standardized layout:
 
 ---
 
+## 🔍 `/init` Slash Command
+
+The `/init` skill [SKILL.md](skills/init/SKILL.md) provides an autonomous initialization and codebase discovery workflow. It examines your repository structure, technology stack, architectures, and operational workflows to create or update a high-signal `GEMINI.md` context file at the root of your project.
+
+### ✨ Key Features
+
+- **Autonomous Discovery**: Direct execution without asking unnecessary setup questions; inspects package manifests, configurations, containers, task runners, and CI/CD pipelines.
+- **Strict "No N/A" Policy**: Inapplicable sections (e.g., Frontend, Backend, Database, Auth, or External Services for a CLI tool or standalone script) are completely omitted. Never generates placeholder `*N/A*` text.
+- **The Minimality Rule**: Prioritizes high-leverage architectural details, non-obvious commands, conventions, and gotchas while omitting noisy file listings and generic boilerplate.
+- **Surgical Updates**: If `GEMINI.md` already exists, detects drift and updates outdated sections while preserving custom developer notes and tribal knowledge.
+- **Safety First**: Strictly non-destructive analysis. Never modifies code, never runs install/build scripts, never modifies Git state, and never exposes credentials or secrets.
+
+---
+
+### 💻 Usage
+
+Run the initialization command at the root of your workspace:
+
+```bash
+/init
+```
+
+Antigravity will:
+1. Confine exploration strictly to the workspace root.
+2. Inspect package manifests (`package.json`, `Cargo.toml`, `pyproject.toml`, `go.mod`, etc.), build configs, and entry points.
+3. Generate or update `GEMINI.md` at the project root.
+4. Output a concise summary (Project Type, Stack, Architecture, Key Commands, and Status) without dumping the full markdown file in chat.
+
+---
+
 ## 🛠️ Installation & Setup
 
-To use this skill in your Antigravity setup:
+To use these skills in your Antigravity setup:
 
-1. **Workspace Level (Project-specific)**:
-   Copy the skill into your project's `.agents/skills/` directory:
-   ```bash
-   mkdir -p .agents/skills/export
-   cp skills/export/SKILL.md .agents/skills/export/SKILL.md
-   ```
+### 1. Workspace Level (Project-specific)
+Copy the desired skill into your project's `.agents/skills/` directory:
 
-2. **Global / User Level (All projects)**:
-   Copy the skill into your user-level skills directory:
-   ```bash
-   cp -r skills/export ~/.gemini/skills/
-   ```
+```bash
+# Install /export
+mkdir -p .agents/skills/export
+cp skills/export/SKILL.md .agents/skills/export/SKILL.md
+
+# Install /init
+mkdir -p .agents/skills/init
+cp skills/init/SKILL.md .agents/skills/init/SKILL.md
+```
+
+### 2. Global / User Level (Available across all projects)
+Copy skills into your user-level skills directory:
+
+```bash
+# Install all skills
+cp -r skills/* ~/.gemini/skills/
+```
