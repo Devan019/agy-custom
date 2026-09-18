@@ -1,0 +1,24 @@
+{
+  "name": "agy-tools",
+  "version": "1.0.0",
+  "description": "Utilities for reading and exporting Antigravity IDE conversations",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.10",
+    "@types/node": "^20.14.0",
+    "rimraf": "^6.0.1",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
